@@ -305,7 +305,6 @@ export class PdfViewerComponent implements OnChanges, OnInit, OnDestroy {
     this._pdf
       .getPage(currentViewer.currentPageNumber)
       .then((page: PDFPageProxy) => {
-        // const viewportWidth = page.getViewport(this._zoom, this._rotation).width * PdfViewerComponent.CSS_UNITS;
         let scale = this._zoom;
         let stickToPage = true;
 
