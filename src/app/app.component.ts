@@ -32,7 +32,6 @@ export class AppComponent {
   page = 1;
   rotation = 0;
   zoom = 1.0;
-  originalSize = false;
   pdf: any;
   renderText = true;
   progressData: PDFProgressData;
@@ -40,7 +39,7 @@ export class AppComponent {
   stickToPage = false;
   showAll = true;
   autoresize = true;
-  fitToPage = false;
+  fitToPage = true;
   outline: any[];
   isOutlineShown = false;
   pdfQuery = '';

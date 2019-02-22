@@ -70,7 +70,6 @@ export class PdfViewerComponent implements OnChanges, OnInit, OnDestroy {
   private _renderText = true;
   private _renderTextMode: RenderTextMode = RenderTextMode.ENABLED;
   private _stickToPage = false;
-  private _originalSize = true;
   private _pdf: PDFDocumentProxy;
   private _page = 1;
   private _zoom = 1;
@@ -112,7 +111,7 @@ export class PdfViewerComponent implements OnChanges, OnInit, OnDestroy {
     }
 
     this._page = _page;
-    this.pageChange.emit(_page);
+    this.emitDebouncedPageChange(_page, false);
   }
 
   @Input('render-text')
@@ -123,11 +122,6 @@ export class PdfViewerComponent implements OnChanges, OnInit, OnDestroy {
   @Input('render-text-mode')
   set renderTextMode(renderTextMode: RenderTextMode) {
     this._renderTextMode = renderTextMode;
-  }
-
-  @Input('original-size')
-  set originalSize(originalSize: boolean) {
-    this._originalSize = originalSize;
   }
 
   @Input('show-all')
@@ -311,22 +305,34 @@ export class PdfViewerComponent implements OnChanges, OnInit, OnDestroy {
     this._pdf
       .getPage(currentViewer.currentPageNumber)
       .then((page: PDFPageProxy) => {
-        const viewportWidth = page.getViewport(this._zoom, this._rotation).width * PdfViewerComponent.CSS_UNITS;
+        // const viewportWidth = page.getViewport(this._zoom, this._rotation).width * PdfViewerComponent.CSS_UNITS;
         let scale = this._zoom;
         let stickToPage = true;
 
-        // Scale the document when it shouldn't be in original size or doesn't fit into the viewport
-        if (
-          !this._originalSize ||
-          (this._fitToPage &&
-            viewportWidth > this.viewerContainer.nativeElement.clientWidth)
-        ) {
+        // Scale the document when it should fit to the page
+        if (this._fitToPage) {
           scale = this.getScale(page.getViewport(1).width);
           stickToPage = !this._stickToPage;
         }
 
         currentViewer._setScale(scale, stickToPage);
       });
+  }
+
+  emitDebouncedPageChange(page: number, isScroll: boolean = false) {
+    if (this.pageScrollTimeout) {
+      clearTimeout(this.pageScrollTimeout);
+    }
+
+    this.pageScrollTimeout = setTimeout(() => {
+      if (isScroll) {
+        this._latestScrolledPage = page;
+      } else {
+        this._latestScrolledPage = -1;
+      }
+
+      this.pageChange.emit(page);
+    }, 75);
   }
 
   private setupMultiPageViewer() {
@@ -341,14 +347,7 @@ export class PdfViewerComponent implements OnChanges, OnInit, OnDestroy {
     });
 
     eventBus.on('pagechange', e => {
-        if (this.pageScrollTimeout) {
-          clearTimeout(this.pageScrollTimeout);
-        }
-
-        this.pageScrollTimeout = setTimeout(() => {
-          this._latestScrolledPage = e.pageNumber;
-          this.pageChange.emit(e.pageNumber);
-        }, 100);
+        this.emitDebouncedPageChange(e.pageNumber, true);
     });
 
     this.pdfMultiPageLinkService = new PDFJSViewer.PDFLinkService({ eventBus });
@@ -527,8 +526,7 @@ export class PdfViewerComponent implements OnChanges, OnInit, OnDestroy {
     }
 
     return (
-      (this._zoom * (pdfContainerWidth / viewportWidth)) /
-      PdfViewerComponent.CSS_UNITS
+      this._zoom * (pdfContainerWidth / viewportWidth) / PdfViewerComponent.CSS_UNITS
     );
   }
 
