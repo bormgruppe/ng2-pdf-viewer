@@ -33,7 +33,7 @@
   "bugs": {
     "url": "https://github.com/VadimDez/ng2-pdf-viewer/issues"
   },
-  "homepage": "https://github.com/VadimDez/ng2-pdf-viewer#readme",
+  "homepage": "https://github.com/bormgruppe/ng2-pdf-viewer#readme",
   "peerDependencies": {
     "@angular/core": ">=5.0.0",
     "pdfjs-dist": "2.0.943",
