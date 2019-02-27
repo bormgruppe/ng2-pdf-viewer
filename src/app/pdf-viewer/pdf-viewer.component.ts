@@ -70,6 +70,7 @@ export class PdfViewerComponent implements OnChanges, OnInit, OnDestroy {
   private _renderText = true;
   private _renderTextMode: RenderTextMode = RenderTextMode.ENABLED;
   private _stickToPage = false;
+  private _originalSize = true;
   private _pdf: PDFDocumentProxy;
   private _page = 1;
   private _zoom = 1;
@@ -122,6 +123,11 @@ export class PdfViewerComponent implements OnChanges, OnInit, OnDestroy {
   @Input('render-text-mode')
   set renderTextMode(renderTextMode: RenderTextMode) {
     this._renderTextMode = renderTextMode;
+  }
+
+  @Input('original-size')
+  set originalSize(originalSize: boolean) {
+    this._originalSize = originalSize;
   }
 
   @Input('show-all')
@@ -522,6 +528,10 @@ export class PdfViewerComponent implements OnChanges, OnInit, OnDestroy {
 
     if (pdfContainerWidth === 0 || viewportWidth === 0) {
       return 1;
+    }
+
+    if (this._originalSize && pdfContainerWidth / viewportWidth > 1) {
+      return this._zoom;
     }
 
     return (

@@ -32,6 +32,7 @@ export class AppComponent {
   page = 1;
   rotation = 0;
   zoom = 1.0;
+  originalSize = true;
   pdf: any;
   renderText = true;
   progressData: PDFProgressData;

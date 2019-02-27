@@ -39,6 +39,12 @@
       </div>
 
       <div class="mb">
+        <mat-slide-toggle [(ngModel)]="originalSize">
+            Original size
+        </mat-slide-toggle>
+      </div>
+
+      <div class="mb">
           <mat-slide-toggle [(ngModel)]="fitToPage">
               Fit to page
           </mat-slide-toggle>
@@ -176,6 +182,7 @@
       <pdf-viewer [src]="pdfSrc"
                   [(page)]="page"
                   [rotation]="rotation"
+                  [original-size]="originalSize"
                   [fit-to-page]="fitToPage"
                   (after-load-complete)="afterLoadComplete($event)"
                   [zoom]="zoom"
