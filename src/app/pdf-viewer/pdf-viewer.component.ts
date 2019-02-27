@@ -525,18 +525,17 @@ export class PdfViewerComponent implements OnChanges, OnInit, OnDestroy {
 
   private getScale(viewportWidth: number) {
     const pdfContainerWidth = this.viewerContainer.nativeElement.clientWidth;
+    const fitToPageFactor =  pdfContainerWidth / viewportWidth / PdfViewerComponent.CSS_UNITS;
 
     if (pdfContainerWidth === 0 || viewportWidth === 0) {
       return 1;
     }
 
-    if (this._originalSize && pdfContainerWidth / viewportWidth > 1) {
+    if (this._originalSize && fitToPageFactor > 1) {
       return this._zoom;
     }
 
-    return (
-      this._zoom * (pdfContainerWidth / viewportWidth) / PdfViewerComponent.CSS_UNITS
-    );
+    return this._zoom * fitToPageFactor;
   }
 
   private getCurrentViewer(): any {
