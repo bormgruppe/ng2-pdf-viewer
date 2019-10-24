@@ -45,12 +45,13 @@ export class AppComponent {
   isOutlineShown = false;
   pdfQuery = '';
 
-  @ViewChild(PdfViewerComponent) private pdfComponent: PdfViewerComponent;
+  @ViewChild(PdfViewerComponent, { static: false })
+  private pdfComponent: PdfViewerComponent;
 
   // Load pdf
   loadPdf() {
     const xhr = new XMLHttpRequest();
-    xhr.open('GET', 'http://localhost:8000/pdf-test.pdf', true);
+    xhr.open('GET', 'http://localhost:8000/assets/pdf-test.pdf', true);
     xhr.responseType = 'blob';
 
     xhr.onload = (e: any) => {
@@ -106,7 +107,6 @@ export class AppComponent {
    */
   afterLoadComplete(pdf: PDFDocumentProxy) {
     this.pdf = pdf;
-    this.isLoaded = true;
 
     this.loadOutline();
   }
@@ -163,7 +163,8 @@ export class AppComponent {
   onProgress(progressData: PDFProgressData) {
     console.log(progressData);
     this.progressData = progressData;
-    this.isLoaded = false;
+
+    this.isLoaded = progressData.loaded >= progressData.total;
     this.error = null; // clear error
   }
 

@@ -15,6 +15,9 @@
   <a href="https://gitter.im/ngx-pdf-viewer/Lobby" title="Gitter">
     <img src="https://img.shields.io/gitter/room/nwjs/nw.js.svg" alt="Gitter"/>
   </a>
+  <a href="https://greenkeeper.io/" title="Greenkeeper">
+    <img src="https://badges.greenkeeper.io/VadimDez/ng2-pdf-viewer.svg" alt="Greenkeeper badge"/>
+  </a>
   <a href="https://www.paypal.me/vadimdez" title="Donate to this project using Paypal">
     <img src="https://img.shields.io/badge/paypal-donate-yellow.svg" alt="PayPal donate button" />
   </a>
@@ -24,13 +27,13 @@
 
 ## Overview
 
-*this is a fork of https://github.com/VadimDez/ng2-pdf-viewer #5.2.3*
+*this is a fork of https://github.com/VadimDez/ng2-pdf-viewer #6.0.1*
 For a full feature overview, check the master repository.
 
 ## Diff to master
-This fork was created to enable the page scroll listener and fix some bugs.
+This fork was created for bugfixing.
 
-*[Pull request](https://github.com/VadimDez/ng2-pdf-viewer/pull/445) is pending.*
+* *[Pull request](https://github.com/VadimDez/ng2-pdf-viewer/pull/445) was pulled into v6.0.0.*
 
 ## Contribute
 [See CONTRIBUTING.md](CONTRIBUTING.md)
@@ -38,4 +41,3 @@ This fork was created to enable the page scroll listener and fix some bugs.
 ## License
 
 [MIT](https://tldrlegal.com/license/mit-license) © [Vadym Yatsyuk](https://github.com/vadimdez)
-
